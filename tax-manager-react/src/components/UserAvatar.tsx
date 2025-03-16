@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "@mui/material/Button";
 import Popover from '@mui/material/Popover';
-import { logout } from '../store/slices/userSlice'; // עדכן את הנתיב הנכון
-import UserEditDialog from './UserEditDialog'; // ייבא את קומפוננטת עריכת המשתמש
+import { logout } from '../store/slices/userSlice'; 
+import UserEditDialog from './UserEditDialog'; 
 
 const UserAvatar = () => {
   const userName = useSelector((state: any) => state.user.currentUser.name);

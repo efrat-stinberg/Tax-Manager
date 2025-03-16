@@ -2,7 +2,6 @@ import "./App.css";
 import { Provider, useSelector } from "react-redux";
 import store from "./store/store";
 import Login from "./components/Login";
-import { Avatar } from "@mui/material";
 import UserAvatar from "./components/UserAvatar";
 
 function App() {
