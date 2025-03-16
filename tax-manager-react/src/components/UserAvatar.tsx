@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Popover from '@mui/material/Popover';
 import { logout } from '../store/slices/userSlice'; 
 import UserEditDialog from './UserEditDialog'; 
+import './UserAvatar.css';
 
 const UserAvatar = () => {
   const userName = useSelector((state: any) => state.user.currentUser.name);
