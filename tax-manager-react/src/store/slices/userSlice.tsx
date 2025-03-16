@@ -15,10 +15,14 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: (state, action: PayloadAction< User >) => {
-      state.currentUser = action.payload;
+    login: (state, action: PayloadAction<{ email: string, password: string }>) => {
+      if (!state.currentUser) {
+        state.currentUser= { email: action.payload.email, id: '', name: '' };
+      } else {
+        state.currentUser.email = action.payload.email;         
+      }
       state.isAuthenticated = true;
-    },
+    },    
     logout: (state) => {
       state.currentUser = null;
       state.isAuthenticated = false;

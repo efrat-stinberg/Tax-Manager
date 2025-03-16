@@ -1,0 +1,16 @@
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #007bff; /* צבע רקע */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white; /* צבע טקסט */
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.initial {
+    line-height: 40px; /* כדי למרכז את האות */
+}
