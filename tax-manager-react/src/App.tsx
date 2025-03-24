@@ -1,10 +1,11 @@
 import "./App.css";
 import { Provider, useSelector } from "react-redux";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import store from "./store/store";
 import Login from "./components/Login";
 import UserAvatar from "./components/UserAvatar";
 import FolderUpload from "./components/FolderUploud";
+
 
 const headerStyle = {
   display: 'flex',
@@ -31,16 +32,15 @@ function Main() {
   return (
     <div style={headerStyle}>
       {isAuthenticated ? (
-        <Routes>
-          <Route path="/upload/:folderName" element={<FolderUpload />} />
-          <Route path="/" element={<UserAvatar />} />
-        </Routes>
+        <>
+          <FolderUpload /> {/* Render FolderUpload directly */}
+          <UserAvatar /> {/* Render UserAvatar directly */}
+        </>
       ) : (
         <Login />
       )}
     </div>
   );
 }
-
 
 export default App;
