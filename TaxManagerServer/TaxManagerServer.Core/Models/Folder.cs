@@ -8,55 +8,58 @@ namespace TaxManager.Core.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Text.Json.Serialization;
 
     namespace TaxManager.Core.Models
     {
 
         public class Folder
         {
-            public int FolderId { get; set; } // Unique identifier for the folder
-            public string FolderName { get; set; } // Name of the folder
-            public DateTime CreatedDate { get; set; } // Creation date of the folder
-            public List<int> DocumentIds { get; set; } // List of document IDs in the folder
+            public int FolderId { get; set; } 
+            public string FolderName { get; set; } 
+            public int UserId { get; set; } 
+            public DateTime CreatedDate { get; set; } 
+            public Collection<Document> Documents { get; set; } 
 
             public Folder()
             {
-                
-            }
-            // Constructor
-            public Folder(int folderId, string folderName)
-            {
-                FolderId = folderId;
-                FolderName = folderName;
-                CreatedDate = DateTime.UtcNow; // Creation date of the folder
-                DocumentIds = new List<int>(); // Initialize the list
+                Documents = new Collection<Document>(); // Initialize the collection of documents
             }
 
-            // Adds a document ID to the folder
-            public void AddDocument(int documentId)
+            // Method to add a document to the folder
+            public void AddDocument(Document document)
             {
-                if (!DocumentIds.Contains(documentId))
+                if (document == null)
                 {
-                    DocumentIds.Add(documentId);
+                    throw new ArgumentNullException(nameof(document), "Document cannot be null.");
                 }
+
+                // Check if the document already exists
+                if (Documents.Any(d => d.DocumentId == document.DocumentId))
+                {
+                    throw new InvalidOperationException("Document already exists in the folder.");
+                }
+
+                Documents.Add(document);
             }
 
-            // Removes a document ID from the folder
-            public void RemoveDocument(int documentId)
+            // Removes a document from the folder
+            public void RemoveDocument(Document document)
             {
-                DocumentIds.Remove(documentId);
+                Documents.Remove(document);
             }
 
-            // Clears all document IDs from the folder
+            // Clears all documents from the folder
             public void ClearDocuments()
             {
-                DocumentIds.Clear();
+                Documents.Clear();
             }
 
             // Returns the count of documents in the folder
             public int GetDocumentCount()
             {
-                return DocumentIds.Count;
+                return Documents.Count;
             }
 
             // Renames the folder

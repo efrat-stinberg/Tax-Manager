@@ -9,10 +9,10 @@ namespace TaxManager.Core.Services
 {
     public interface IFolderService
     {
-        void Add(Folder folder);
-        Folder GetById(int folderId);
-        IEnumerable<Folder> GetAll();
-        void Update(Folder folder);
-        void Delete(int folderId);
+        Task AddAsync(Folder folder);
+        Task<Folder> GetByIdAsync(int folderId);
+        Task<IEnumerable<Folder>> GetAllAsync();
+        Task UpdateAsync(Folder folder);
+        Task DeleteAsync(int folderId);
     }
 }

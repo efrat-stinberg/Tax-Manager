@@ -9,10 +9,10 @@ namespace TaxManager.Core.Services
 {
     public interface IDocumentService
     {
-        void Add(Document document);
-        Document GetById(int documentId);
-        IEnumerable<Document> GetAll();
-        void Update(Document document);
-        void Delete(int documentId);
+        Task AddAsync(Document document);
+        Task<Document> GetByIdAsync(int documentId);
+        Task<IEnumerable<Document>> GetAllAsync();
+        Task UpdateAsync(Document document);
+        Task DeleteAsync(int documentId);
     }
 }
