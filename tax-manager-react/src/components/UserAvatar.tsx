@@ -7,12 +7,18 @@ import UserEditDialog from './UserEditDialog';
 import './UserAvatar.css';
 
 const UserAvatar = () => {
-  const userName = useSelector((state: any) => state.user.currentUser.name);
+
+  const currentUser = useSelector((state:any) => state.user.currentUser);
+  console.log("use",currentUser);
+  
+  const userName = currentUser.username;
+  console.log("use name",userName);
+  
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openEditDialog, setOpenEditDialog] = useState(false); // מצב לפתיחת דיאלוג העריכה
   const dispatch = useDispatch(); 
 
-  const firstLetter = userName ? userName.charAt(0) : "E";
+  const firstLetter = userName ? userName.charAt(0).toUpperCase() : "";
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

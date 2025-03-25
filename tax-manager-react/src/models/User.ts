@@ -1,7 +1,8 @@
 import MyFolder from "./Folder";
 
 type User = {
-  name: string;
+  userId: number;
+  username: string;
   email: string;
   folders: MyFolder[];
 };
