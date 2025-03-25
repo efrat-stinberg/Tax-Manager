@@ -1,19 +1,27 @@
 import { useState } from "react";
 import { login } from "../store/slices/userSlice";
 import { useDispatch } from "react-redux";
-import { TextField, Button, Container, Typography } from '@mui/material';
-
+import { TextField, Button, Container, Typography } from "@mui/material";
+import { getUserByEmail, loginUser } from "../api/api";
 
 const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    dispatch(login({ email, password }));
+    try {
+      const token = await loginUser(email, password); 
+      localStorage.setItem('token', token); // Store the token
+      console.log("Login successful");
+      const user = await getUserByEmail(email); // Get user details
+      dispatch(login(user)); // Dispatch user details to Redux
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
-
+  
 
   return (
     <Container maxWidth="sm">

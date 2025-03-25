@@ -1,7 +1,9 @@
+import MyFolder from "./Folder";
+
 type User = {
-  id: string;
   name: string;
   email: string;
+  folders: MyFolder[];
 };
 
 export default User;
