@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import User from "../../models/User"; // Adjusted import to remove .ts extension
-import { Link } from "react-router-dom";
+import User from "../../models/User";
 
 interface UserState {
   currentUser: User | null;
@@ -17,30 +16,36 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action: PayloadAction<User>) => {
-      console.log("login first", action.payload);
       state.currentUser = {
-        userId: action.payload.userId, 
-        email: action.payload.email,        
+        userId: action.payload.userId,
+        email: action.payload.email,
         username: action.payload.username,
         folders: action.payload.folders.map((folder) => ({
           ...folder,
           documents: folder.documents.map((document) => ({
-            documentName: document.documentName, 
+            documentName: document.documentName,
             filePath: document.filePath,
             uploadDate: document.uploadDate,
             folderId: document.folderId,
           })),
         })),
-      };      
-      console.log("login secens", state.currentUser);
+      };
       state.isAuthenticated = true;
     },
     logout: (state) => {
       state.currentUser = null;
       state.isAuthenticated = false;
     },
+    updateUser: (state, action: PayloadAction<Partial<User>>) => {
+      if (state.currentUser) {
+        state.currentUser = {
+          ...state.currentUser,
+          ...action.payload,
+        };
+      }
+    },
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, updateUser } = userSlice.actions;
 export default userSlice.reducer;

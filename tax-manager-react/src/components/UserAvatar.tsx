@@ -5,18 +5,18 @@ import Popover from '@mui/material/Popover';
 import { logout } from '../store/slices/userSlice'; 
 import UserEditDialog from './UserEditDialog'; 
 import './UserAvatar.css';
+import { updateUser } from "../api/api";
+import User from "../models/User";
 
 const UserAvatar = () => {
-
   const currentUser = useSelector((state:any) => state.user.currentUser);
-  console.log("use",currentUser);
-  
   const userName = currentUser.username;
-  console.log("use name",userName);
-  
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [openEditDialog, setOpenEditDialog] = useState(false); // מצב לפתיחת דיאלוג העריכה
+  const userEmail = currentUser.email; // הנח שיש שדה מייל
   const dispatch = useDispatch(); 
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openEditDialog, setOpenEditDialog] = useState(false); 
+  const [email, setEmail] = useState(userEmail); // הוסף מצב למייל
 
   const firstLetter = userName ? userName.charAt(0).toUpperCase() : "";
 
@@ -31,7 +31,7 @@ const UserAvatar = () => {
   const open = Boolean(anchorEl);
 
   const handleEdit = () => {
-    setOpenEditDialog(true); // פתח את דיאלוג העריכה
+    setOpenEditDialog(true); 
     handleClose();
   };
 
@@ -40,10 +40,21 @@ const UserAvatar = () => {
     handleClose();
   };
 
-  const handleSave = () => {
-    // הוסף כאן את הלוגיקה לשמירת השינויים (למשל, עדכון Redux)
-    setOpenEditDialog(false); // סגור את דיאלוג העריכה
+  const handleSave = async (updatedUserData: { name: string; email: string }) => {
+    const userToUpdate: User = {
+      ...currentUser,
+      username: updatedUserData.name,
+      email: updatedUserData.email,
+    };
+    try {
+      await updateUser(userToUpdate);
+      dispatch(await updateUser(userToUpdate));
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+    setOpenEditDialog(false); 
   };
+  
 
   return (
     <div>
@@ -75,8 +86,8 @@ const UserAvatar = () => {
       <UserEditDialog 
         isOpen={openEditDialog} 
         onClose={() => setOpenEditDialog(false)} 
-        onSave={handleSave} 
-        user={{ name: userName || '', email: '' }} 
+        user={{ name: userName || '', email: email }} // העבר את המייל
+        onSave={handleSave} // העבר את הפונקציה ללא קריאה
       />
     </div>
   );
