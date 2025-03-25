@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using TaxManagerServer.Core.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -108,6 +109,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseAuthorization();
+
+//app.UseMiddleware<TokenMiddleware>();
 
 app.MapControllers();
 

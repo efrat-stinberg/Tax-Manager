@@ -12,6 +12,6 @@ namespace TaxManagerServer.Core.DTOs
     {
         public string FolderName { get; set; }
         public DateTime CreatedDate { get; set; }
-        public Collection<Document> Documents { get; set; }
+        public Collection<DocumentDTO> Documents { get; set; }
     }
 }

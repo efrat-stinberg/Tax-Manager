@@ -9,8 +9,9 @@ namespace TaxManagerServer.Core.DTOs
 {
     public class UserDTO
     {
+        public int UserId { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
-        public ICollection<Folder> Folders { get; set; }
+        public ICollection<FolderDTO> Folders { get; set; }
     }
 }

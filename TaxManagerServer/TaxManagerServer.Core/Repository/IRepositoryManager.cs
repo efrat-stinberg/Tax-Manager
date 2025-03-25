@@ -7,7 +7,7 @@ using TaxManager.Core.Models.TaxManager.Core.Models;
 using TaxManager.Core.Models;
 using TaxManagerServer.Core.Repository;
 
-namespace TaxManagerServer.Data.Repositories
+namespace TaxManagerServer.Core.Repository
 {
     public interface IRepositoryManager
     {

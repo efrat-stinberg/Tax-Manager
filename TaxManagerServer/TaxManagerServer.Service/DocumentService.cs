@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using TaxManager.Core.Models;
 using TaxManager.Core.Services;
 using TaxManagerServer.Core.Repository;
-using TaxManagerServer.Data.Repositories;
 
 namespace TaxManager.Service
 {

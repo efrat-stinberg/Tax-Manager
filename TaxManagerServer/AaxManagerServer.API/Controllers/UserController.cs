@@ -46,6 +46,37 @@ namespace TaxManager.API.Controllers
             return Ok(userDto);
         }
 
+
+        [HttpGet("{email}")]
+        public async Task<ActionResult<User>> GetByEmail(string email)
+        {
+            var user = await _userService.GetByEmailAsync(email); // Use async method
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var userDto = _mapper.Map<UserDTO>(user);
+            return Ok(userDto);
+        }
+
+        //[HttpGet]
+        //public async Task<IActionResult> GetUser()
+        //{
+        //    // קבלת ה-ID מה-Middleware
+        //    if (!HttpContext.Items.TryGetValue("UserId", out var userId))
+        //    {
+        //        return Unauthorized();
+        //    }
+
+        //    var user = await _userService.GetByIdAsync(int.Parse(userId.ToString()));
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(user);
+        //}
+
         // POST api/<UsersController>
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] UserPostModel newUser)
@@ -55,7 +86,7 @@ namespace TaxManager.API.Controllers
                 return BadRequest();
             }
 
-            var userToAdd = new User { Username = newUser.Email, Password = newUser.Password};
+            var userToAdd = new User { UserName = newUser.Email, Password = newUser.Password , Email = newUser.Email};
             await _userService.AddAsync(userToAdd); // Use async method
             return CreatedAtAction(nameof(Get), new { id = userToAdd.UserId }, newUser);
         }
@@ -70,7 +101,7 @@ namespace TaxManager.API.Controllers
                 return NotFound();
             }
 
-            var userToUpdate = new User { UserId = id, Username = updatedUser.Email, Password = updatedUser.Password }; // Set UserId for update
+            var userToUpdate = new User { UserId = id, UserName = updatedUser.Email, Password = updatedUser.Password }; // Set UserId for update
             await _userService.UpdateAsync(id, userToUpdate); // Pass id as the first argument
             return NoContent();
         }

@@ -15,5 +15,8 @@ namespace TaxManager.Core.Services
         Task UpdateAsync(int id, User updatedUser);
         Task AddAsync(User newUser);
         Task DeleteAsync(int id);
+        bool IsValidEmail(string email);
+        bool IsValidPassword(string password);
+
     }
 }

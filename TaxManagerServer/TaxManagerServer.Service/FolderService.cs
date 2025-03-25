@@ -5,7 +5,6 @@ using TaxManager.Core.Models;
 using TaxManager.Core.Models.TaxManager.Core.Models;
 using TaxManager.Core.Services;
 using TaxManagerServer.Core.Repository;
-using TaxManagerServer.Data.Repositories;
 
 namespace TaxManager.Service
 {

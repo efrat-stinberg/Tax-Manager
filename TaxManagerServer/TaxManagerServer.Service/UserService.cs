@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using TaxManager.Core.Models;
 using TaxManager.Core.Services;
 using TaxManagerServer.Core.Repository;
-using TaxManagerServer.Data.Repositories;
+using Org.BouncyCastle.Crypto.Generators;
 
 namespace TaxManager.Service
 {
@@ -35,13 +35,12 @@ namespace TaxManager.Service
             return await _userRepository.GetByEmailAsync(email);
         }
 
-
         public async Task UpdateAsync(int id, User updatedUser)
         {
             var existingUser = await _userRepository.GetByIdAsync(id);
             if (existingUser != null)
             {
-                existingUser.Username = updatedUser.Username;
+                existingUser.UserName = updatedUser.UserName;
                 existingUser.Email = updatedUser.Email;
                 await _userRepository.UpdateAsync(existingUser);
                 await _repositoryManager.SaveAsync();
@@ -50,6 +49,13 @@ namespace TaxManager.Service
 
         public async Task AddAsync(User newUser)
         {
+            var existingUser = await _userRepository.GetByEmailAsync(newUser.Email);
+            if (existingUser != null)
+            {
+                throw new Exception("User with this email already exists.");
+            }
+
+            //newUser.PasswordHash = HashPassword(newUser.Password); // הנחה שיש שדה לסיסמה
             await _userRepository.AddAsync(newUser);
             await _repositoryManager.SaveAsync();
         }
@@ -64,6 +70,26 @@ namespace TaxManager.Service
             }
         }
 
+        public bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
+        public bool IsValidPassword(string password)
+        {
+            return password.Length >= 5 &&
+                   password.Any(char.IsLetter) &&
+                   password.Any(char.IsDigit);
+        }
+
+        //public string HashPassword(string password) => BCrypt.Net.BCrypt.HashPassword(password)
     }
 }
